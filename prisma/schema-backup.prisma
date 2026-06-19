@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql" // অথবা আপনার ব্যবহৃত ডাটাবেস (mysql/sqlite)
+  url      = env("DATABASE_URL")
+}
+
+model JobPost {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  description String
+  department  String?
+  location    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  lastDate    DateTime?
+}
+
+model AdmitCard {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  description String
+  department  String?
+  pdfUrl      String?
+  examDate    DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model AnswerKey {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Syllabus {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
