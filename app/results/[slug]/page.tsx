@@ -1,5 +1,29 @@
 import { prisma } from "../../../lib/prisma";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+
+  const result = await prisma.result.findUnique({
+    where: { slug },
+  });
+
+  if (!result) {
+    return {
+      title: "Result Not Found",
+    };
+  }
+
+  return {
+    title: result.title,
+    description: result.description,
+  };
+}
 
 export default async function ResultDetailsPage({
   params,
