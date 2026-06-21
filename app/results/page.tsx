@@ -37,3 +37,11 @@ export default async function ResultsPage() {
     </div>
   );
 }
+
+    where: search
+  ? {
+      title: {
+        contains: search,
+      },
+    }
+  : undefined

@@ -37,3 +37,46 @@ export default async function JobsPage() {
     </div>
   );
 }
+
+    import { prisma } from "@/lib/prisma";
+
+export default async function JobsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ search?: string }>;
+}) {
+  const { search } = await searchParams;
+
+  const jobs = await prisma.jobPost.findMany({
+    where: search
+      ? {
+          title: {
+            contains: search,
+          },
+        }
+      : undefined,
+
+    orderBy: {
+      createdAt: "desc",
+    },
+
+    take: 50,
+  });
+
+  return (
+    <>
+      <form>
+        <input
+          name="search"
+          placeholder="Search jobs..."
+        />
+      </form>
+
+      {jobs.map((job) => (
+        <div key={job.id}>
+          {job.title}
+        </div>
+      ))}
+    </>
+  );
+}
